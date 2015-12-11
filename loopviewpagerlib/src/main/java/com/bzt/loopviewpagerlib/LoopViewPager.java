@@ -29,14 +29,10 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
-        Log.i("TAG","1");
         myPagerAdapter = new MyPagerAdapter(adapter);
-        Log.i("TAG","2");
         super.setAdapter(myPagerAdapter);
-        Log.i("TAG", "3");
         //直接跳到index = 1的item，这个Item是真正的第0个Item
         setCurrentItem(1);
-        Log.i("TAG", "4");
     }
 
     public void setIsScroll(boolean isScroll){

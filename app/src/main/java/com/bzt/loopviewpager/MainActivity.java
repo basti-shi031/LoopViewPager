@@ -1,6 +1,5 @@
 package com.bzt.loopviewpager;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,63 +16,39 @@ import android.widget.ImageView;
 import com.bzt.loopviewpagerlib.LoopAdapter;
 import com.bzt.loopviewpagerlib.LoopViewPager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private LoopViewPager viewPager;
     private LoopAdapter mAdapter;
+    private MyPageAdapter myPageAdapter;
     private int[] resource = {R.mipmap.ic_launcher,R.mipmap.android1,R.mipmap.android2};
+    private List<Integer> mlist = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mlist.add(R.mipmap.ic_launcher);
+        mlist.add(R.mipmap.android1);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(fab,"add an Item",Snackbar.LENGTH_SHORT).show();
+                mlist.add(R.mipmap.android2);
+                myPageAdapter.notifyDataSetChanged();
             }
         });
 
         viewPager = (LoopViewPager) findViewById(R.id.viewpager);
-        mAdapter = new LoopAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return resource.length;
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                ImageView item = new ImageView(getApplicationContext());
-                item.setScaleType(ImageView.ScaleType.FIT_XY
-                );
-
-                //item.setBackgroundResource(mList.get(position).get);
-                if (position!= -1){
-                   item.setImageResource(resource[position]);
-                }
-                container.addView( item);
-                return item;
-
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView((View) object);
-            }
-        });
-
-
-        Log.i("size",mAdapter.getCount()+"");
-        viewPager.setAdapter(mAdapter);
+        myPageAdapter = new MyPageAdapter(mlist,this);
+        viewPager.setAdapter(myPageAdapter);
 
     }
 
