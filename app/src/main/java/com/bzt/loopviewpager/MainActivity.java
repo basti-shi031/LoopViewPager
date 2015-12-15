@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.bzt.loopviewpagerlib.LoopAdapter;
 import com.bzt.loopviewpagerlib.LoopViewPager;
 
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //开始自动播放
                 viewPager.start(5000);
             }
         });
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.stop).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //停止自动播放
                 viewPager.stop();
             }
         });
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    注意在onDestroy中将消息队列回收
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
