@@ -1,7 +1,10 @@
 package com.bzt.loopviewpagerlib;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -9,6 +12,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by SHIBW-PC on 2015/12/10.
@@ -26,6 +31,21 @@ public class LoopViewPager extends ViewPager {
         super(context, attrs);
         setOnPageChangeListener(null);
     }
+
+    private boolean enableAuto = false;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (enableAuto){
+                int index = getCurrentItem();
+                index++;
+                setCurrentItem(index);
+                start(msg.arg1);
+            }
+        }
+    };
 
     @Override
     public void setAdapter(PagerAdapter adapter) {
@@ -113,13 +133,11 @@ public class LoopViewPager extends ViewPager {
                 @Override
                 public void onChanged() {
                     notifyDataSetChanged();
-                    Log.i("TAG","onChanged");
                 }
 
                 @Override
                 public void onInvalidated() {
                     notifyDataSetChanged();
-                    Log.i("TAG", "onInvalidated");
                 }
             });
         }
@@ -163,5 +181,28 @@ public class LoopViewPager extends ViewPager {
         public void destroyItem(ViewGroup container, int position, Object object) {
             mAdapter.destroyItem(container,position,object);
         }
+    }
+
+    /*
+    自动播放
+    time表示间隔时间
+     */
+    public void start(int time){
+        enableAuto = true;
+        Message message = Message.obtain();
+        message.arg1 = time;
+        mHandler.sendMessageDelayed(message,time);
+    }
+
+    /*
+    *自动播放
+    *不加参数默认5000ms
+     */
+    public void start(){
+        start(5000);
+    }
+
+    public void onDestroy(){
+        mHandler.removeCallbacksAndMessages(null);
     }
 }
