@@ -19,4 +19,18 @@
 
     </com.bzt.loopviewpagerlib.LoopViewPager>
 
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viewpager"
+        android:id="@+id/start"
+        android:text="start auto play"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/viewpager"
+        android:layout_alignParentRight="true"
+        android:id="@+id/stop"
+        android:text="stop auto play"/>
 </RelativeLayout>

@@ -22,6 +22,7 @@ public class LoopViewPager extends ViewPager {
 
     private boolean isScrolling = true;
     private MyPagerAdapter myPagerAdapter;
+    private int messageTag = 0;
 
     public LoopViewPager(Context context) {
         this(context, null);
@@ -191,6 +192,8 @@ public class LoopViewPager extends ViewPager {
         enableAuto = true;
         Message message = Message.obtain();
         message.arg1 = time;
+        //what作为Message的标记，用于移除未被接收到的Message
+        message.what = messageTag;
         mHandler.sendMessageDelayed(message,time);
     }
 
@@ -202,7 +205,20 @@ public class LoopViewPager extends ViewPager {
         start(5000);
     }
 
+    /*
+       停止自动播放
+     */
+    public void stop(){
+        enableAuto = false;
+        //移除所有之前的Message
+        mHandler.removeMessages(messageTag);
+    }
+
+    /*
+    回收
+     */
     public void onDestroy(){
+        if (mHandler!=null)
         mHandler.removeCallbacksAndMessages(null);
     }
 }

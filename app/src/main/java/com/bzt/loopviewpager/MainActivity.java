@@ -18,7 +18,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private LoopViewPager viewPager;
-    private LoopAdapter mAdapter;
     private MyPageAdapter myPageAdapter;
     private List<Integer> mlist = new ArrayList<>();
     @Override
@@ -44,7 +43,21 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (LoopViewPager) findViewById(R.id.viewpager);
         myPageAdapter = new MyPageAdapter(mlist,this);
         viewPager.setAdapter(myPageAdapter);
-        viewPager.start(5000);
+        //viewPager.start(5000);
+
+        findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.start(5000);
+            }
+        });
+
+        findViewById(R.id.stop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.stop();
+            }
+        });
     }
 
     @Override
@@ -74,4 +87,5 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         viewPager.onDestroy();
     }
+
 }
