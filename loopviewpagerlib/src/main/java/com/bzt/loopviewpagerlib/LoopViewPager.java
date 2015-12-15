@@ -190,6 +190,8 @@ public class LoopViewPager extends ViewPager {
      */
     public void start(int time){
         enableAuto = true;
+        //防止多次点击导致有多个消息
+        mHandler.removeMessages(messageTag);
         Message message = Message.obtain();
         message.arg1 = time;
         //what作为Message的标记，用于移除未被接收到的Message
