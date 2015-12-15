@@ -33,5 +33,5 @@ viewpager.stop();
 
 自动播放使用Handler和Message机制，为了防止内存泄露，需要在onDestory()方法中调用
 ```java
-viewpager.onDestor();
+viewpager.onDestory();
 ···
